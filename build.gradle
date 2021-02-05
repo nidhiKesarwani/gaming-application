@@ -1,0 +1,71 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+
+group = "${apiGrp}"
+version = "${apiVer}"
+sourceCompatibility = "${jdkVersion}"
+targetCompatibility = "${jdkVersion}"
+
+/*
+ * Copyright (c) 2021
+ */
+
+//configurations {
+//    compileOnly {
+//        extendsFrom annotationProcessor
+//    }
+//}
+
+repositories {
+    mavenLocal()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: "${springFoxSwager2Version}"
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: "${springFoxSwager2Version}"
+    compile("log4j:log4j:${log4jVersion}")
+    compile("com.fasterxml.jackson.core:jackson-core:${jacksonCoreVersion}")
+    compile("com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}")
+    compile("org.apache.commons:commons-lang3:${apacheCommonsLangVersion}")
+    compile("javax.validation:validation-api:${javaxValidationVer}")
+    compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.38'
+
+}
+
+bootJar {
+    baseName = "gaming-service"
+    version = "${apiVer}"
+}
+
+task unpack(type: Copy) {
+    dependsOn bootJar
+    from(zipTree(tasks.bootJar.outputs.files.singleFile))
+    into("build/dependency")
+}

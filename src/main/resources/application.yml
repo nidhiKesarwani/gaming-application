@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: gaming-app
+    version: 1.0.0-SNAPSHOT
+
+  profiles:
+    active: dev
+
+server:
+  port: 8090
+
+---
+
+spring:
+  profiles: dev
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+
+---
+
+spring:
+  profiles: docker
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
