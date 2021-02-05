@@ -13,6 +13,14 @@ server:
 
 spring:
   profiles: dev
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/gamingdb
+    username: root
+    password: Nidhi123@
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
   servlet:
     multipart:
       max-file-size: 15MB
