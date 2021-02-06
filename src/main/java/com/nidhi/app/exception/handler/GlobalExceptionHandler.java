@@ -34,6 +34,7 @@ public class GlobalExceptionHandler {
         log.error(ex.getMessage(), ex);
 
         if (!Objects.isNull(ex.getClass())) {
+
             if (ex instanceof CustomException) {
                 CustomException ce = (CustomException) ex;
                 if (ExceptionType.USERDEFINED.equals(ce.getExpType())) {
@@ -44,7 +45,6 @@ public class GlobalExceptionHandler {
                             new Date(), ExceptionType.TECHNICAL.name(), request.getDescription(true)), HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
-
         }
         return new ResponseEntity(new ExpMsg("IntSerExp", ex.getClass().getTypeName(),
                 ex.getMessage() != null ? ex.getMessage() : "No exception message available.", new Date(), ExceptionType.TECHNICAL.name(),

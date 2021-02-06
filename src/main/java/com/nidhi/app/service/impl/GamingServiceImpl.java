@@ -45,10 +45,10 @@ public class GamingServiceImpl implements GamingService {
     public String getTicket(RequestTicketRqstDTO rqst) {
         int totalCount = repo.getTotalCountOfTickets();
         if (totalCount>100)
-            throw new CustomException(ExceptionType.USERDEFINED, "TICKET_LIMIT_REACHED");
+            throw new CustomException(ExceptionType.USERDEFINED, "sorry, we have already distributed all the tickets");
         Optional<Ticket> optTicket = repo.findByUserEmail(rqst.getUserEmail());
         if(optTicket.isPresent())
-            throw new CustomException(ExceptionType.USERDEFINED, "USER_ALREADY_EXISTS",rqst.getUserName(), rqst.getUserEmail());
+            throw new CustomException(ExceptionType.USERDEFINED,  "sorry, user " + rqst.getUserName() +" with email " +rqst.getUserEmail()+" has already been allotted the ticket");
        Ticket ticket = new Ticket();
        BeanUtils.copyProperties(rqst, ticket);
        ticket.setDateAllotted(new Date());
