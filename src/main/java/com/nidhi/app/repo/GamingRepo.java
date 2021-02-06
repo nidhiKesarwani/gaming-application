@@ -23,4 +23,7 @@ public interface GamingRepo extends JpaRepository<Ticket,String> {
     int getTotalCountOfTickets();
 
     Optional<Ticket> findByUserEmail(String userEmail);
+
+    @Query(value="select * from ticket order by RAND() LIMIT 1", nativeQuery = true)
+    Optional<Ticket> computeFinalWinner();
 }
